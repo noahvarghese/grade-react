@@ -1,7 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Alex+Brush&family=Roboto:wght@300;400&display=swap');
+
 body {
     margin: 0;
 }
 
 * {
     box-sizing: border-box;
+}
+
+h1 { 
+    font-family: Alex Brush;
+    font-size: 3rem;
+}
+
+h2,
+button[type="submit"] {
+    font-family: Roboto;
+    font-weight: 400;
+    font-size: 2rem;
+}
+
+input, td {
+    font-size: 2.5rem;
+    font-family: Roboto;
+    font-weight: 300;
 }
