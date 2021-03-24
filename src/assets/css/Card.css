@@ -1,0 +1,19 @@
+.card {
+    height: 4rem;
+    border-radius: 2px;
+    position:relative;
+    box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.2);
+    padding: 2px 16px;
+    margin-bottom: 5px;
+    z-index: 1;
+    transition: all 0.2s;
+    width: 100%;
+    background-color: white;
+    z-index: 2;
+    transition: all 0.2s ease-in;
+}
+
+.card:focus-within, .card:hover {
+    z-index: 3;
+    transform: scale(1.02);
+}

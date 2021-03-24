@@ -1,39 +1,48 @@
-import React, { ChangeEvent } from 'react';
+import React, { ChangeEvent, FormEvent } from 'react';
+import classNames from "classnames";
+import Attention from "../assets/img/Attention.png";
 import "../assets/css/Form.css";
+import "../assets/css/Card.css";
 
 interface FormProps {
-    updateGrade: (e: ChangeEvent<HTMLInputElement>) => void;
-    updateSubject: (e: ChangeEvent<HTMLInputElement>) => void;
-    addGrade: () => void;
-    currentGrade: { value: number, error: string };
-    currentSubject: { value: string, error: string }
+    setGrade: (e: ChangeEvent<HTMLInputElement>) => void;
+    setSubject: (e: ChangeEvent<HTMLInputElement>) => void;
+    addGrade: (e: FormEvent<HTMLFormElement>) => void;
+    currentGrade: { value: number | undefined, error: string };
+    currentSubject: { value: string | undefined, error: string };
 }
 
-const Form = ({ updateGrade, updateSubject, addGrade, currentGrade, currentSubject }: FormProps) => {
+const Form = ({ setGrade, setSubject, addGrade, currentGrade, currentSubject }: FormProps) => {
+
+    let error;
+
+    if ( currentGrade.error )  {
+        error = <div id="error"><span><img src={Attention} alt="Attention" /></span><span>{currentGrade.error}</span></div>;
+    }
+    else if ( currentSubject.error ) {
+        error = <div id="error"><span><img src={Attention} alt="Attention" /></span><span>{currentSubject.error}</span></div>;
+    }
+    else {
+        error = "";
+    }
+
+
     return (
-        <div>
-            <form>
-                <div className="inputContainer">
-
+        <div className="form">
+            <form onSubmit={addGrade}>
+                <div className={classNames("inputContainer", "card", { error: currentSubject.error})}>
+                    <input type="text" id="subject" name="subject" onChange={setSubject} placeholder=" " />
+                    <label htmlFor="subject"><span>Subject</span></label>
                 </div>
-                <div className="inputContainer">
-
+                <div className={classNames("inputContainer", "card", { error: currentGrade.error})}>
+                    <input type="number" id="grade" name="grade" onChange={setGrade} min="0" max="100" placeholder=" "  />
+                    <label htmlFor="grade"><span>Grade</span></label>
                 </div>
-                <button type="submit" onClick={addGrade}>
+                <button type="submit">
                     Add
                 </button>
             </form>
-            {
-                currentGrade.error ?
-                    <div id="error">
-                        <span>currentGrade.error</span>
-                    </div>
-                    : currentSubject.error ?
-                        <div id="error">
-                            <span>currentSubject.error</span>
-                        </div>
-                        : ""
-            }
+            {error}
         </div>
     )
 }
