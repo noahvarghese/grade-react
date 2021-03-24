@@ -1,0 +1,15 @@
+button[type="submit"] {
+    font-family: Roboto;
+    font-weight: 400;
+    font-size: 2rem;
+    outline: none;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+input {
+    font-family: Roboto;
+    font-weight: 300;
+    font-size: 2rem;
+}
