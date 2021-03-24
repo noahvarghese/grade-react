@@ -6,7 +6,6 @@ import Stats from "./components/Stats";
 import Grades from "./components/Grades";
 
 interface StateProps {
-    index: number | undefined;
     currentGrade: {
         value: number | undefined;
         error: string;
@@ -21,6 +20,7 @@ interface StateProps {
         min: number;
         avg: number;
     };
+    index: number | undefined;
 }
 
 const App = () => {
@@ -78,10 +78,9 @@ const App = () => {
                 grade: state.currentGrade.value,
                 subject: state.currentSubject.value,
             };
-            console.log(newGrade)
 
             if (state.index) {
-                grades[state.index] = newGrade as {
+                grades[state.index - 1] = newGrade as {
                     grade: number;
                     subject: string;
                 };
@@ -89,13 +88,11 @@ const App = () => {
                 grades.push(newGrade as { grade: number; subject: string });
             }
 
-            console.log(grades);
             const stats = computeStats(grades);
-            console.log(stats);
 
             setState({
-                currentGrade: { value: -1, error: "" },
-                currentSubject: { value: "", error: "" },
+                currentGrade: { value: undefined, error: "" },
+                currentSubject: { value: undefined, error: "" },
                 index: undefined,
                 grades,
                 stats,
@@ -159,12 +156,24 @@ const App = () => {
     };
 
     const editItem = (index: number) => {
-
+        const current = state.grades[index - 1];
+        setState({
+            ...state,
+            index: Number(index),
+            currentGrade: {
+                value: current.grade,
+                error: ""
+            },
+            currentSubject: {
+                value: current.subject,
+                error: ""
+            }
+        });
     } 
 
     const deleteItem = (index: number) => {
         let tmpGrades = state.grades;
-        tmpGrades = tmpGrades.slice(0, index).concat(tmpGrades.slice(index + 1, tmpGrades.length));
+        tmpGrades = tmpGrades.slice(0, index - 1).concat(tmpGrades.slice(index, tmpGrades.length));
         const stats = tmpGrades.length > 0 ? computeStats(tmpGrades) : { min: 0, max: 0, avg: 0};
         setState({...state, grades: tmpGrades, stats});
     }
@@ -180,6 +189,7 @@ const App = () => {
                         currentGrade={state.currentGrade}
                         currentSubject={state.currentSubject}
                         addGrade={addGrade}
+                        index={state.index}
                     />
                     <Stats {...state.stats}/>
                 </div>

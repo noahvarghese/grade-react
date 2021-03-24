@@ -13,15 +13,16 @@ const Grades: React.FunctionComponent<GradeProps> = ({ grades, deleteItem, editI
     return (
         <div className="grades">
             {grades.map((grade, index) => (
-                <div className="subject card" key={index}>
+                /* Set key to one over the index because Javascript converts the number 0 to undefined */
+                <div className="subject card" key={index + 1}>
                     <div className="textContainer"><span>{grade.subject}</span></div>
                     <div className="textContainer"><span>{grade.grade}</span></div>
                     <div className="btnContainer">
                         <button type="button">
-                            <img src={Edit} alt="Edit" onClick={() => editItem(index)}/>
+                            <img src={Edit} alt="Edit" onClick={() => editItem(index + 1)}/>
                         </button>
                         <button>
-                            <img src={Delete} alt="Delete" onClick={() => deleteItem(index)}/>
+                            <img src={Delete} alt="Delete" onClick={() => deleteItem(index + 1)}/>
                         </button>
                     </div>
                 </div>

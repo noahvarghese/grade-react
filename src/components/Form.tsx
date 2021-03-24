@@ -10,9 +10,10 @@ interface FormProps {
     addGrade: (e: FormEvent<HTMLFormElement>) => void;
     currentGrade: { value: number | undefined, error: string };
     currentSubject: { value: string | undefined, error: string };
+    index: number | undefined;
 }
 
-const Form = ({ setGrade, setSubject, addGrade, currentGrade, currentSubject }: FormProps) => {
+const Form = ({ setGrade, setSubject, addGrade, currentGrade, currentSubject, index }: FormProps) => {
 
     let error;
 
@@ -31,15 +32,15 @@ const Form = ({ setGrade, setSubject, addGrade, currentGrade, currentSubject }: 
         <div className="form">
             <form onSubmit={addGrade}>
                 <div className={classNames("inputContainer", "card", { error: currentSubject.error})}>
-                    <input type="text" id="subject" name="subject" onChange={setSubject} placeholder=" " />
+                    <input type="text" id="subject" name="subject" onChange={setSubject} placeholder=" " value={currentSubject.value ?? ""} />
                     <label htmlFor="subject"><span>Subject</span></label>
                 </div>
                 <div className={classNames("inputContainer", "card", { error: currentGrade.error})}>
-                    <input type="number" id="grade" name="grade" onChange={setGrade} min="0" max="100" placeholder=" "  />
+                    <input type="number" id="grade" name="grade" onChange={setGrade} min="0" max="100" placeholder=" " value={currentGrade.value ?? ""}  />
                     <label htmlFor="grade"><span>Grade</span></label>
                 </div>
                 <button type="submit">
-                    Add
+                    {Number(index) ? "Update" : "Add"}
                 </button>
             </form>
             {error}
