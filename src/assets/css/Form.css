@@ -58,23 +58,24 @@ button[type="submit"] {
     cursor: pointer;
     /* color: var(--font-color); */
     /* color: black; */
-    color: white;
-    border-radius: 2rem;
+    color: var(--font-color);
+    border-radius: 25px;
     box-shadow: inset ;
     z-index: 1;
     /* background: linear-gradient(0deg, rgba(0,0,0,0.1), rgba(255,255,255,1)); */
-    background: linear-gradient(0deg,rgba(33, 46, 83, 1), rgba(74, 145, 158, 1));
-    box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.3);
+    /* background: linear-gradient(0deg,rgba(33, 46, 83, 1), rgba(74, 145, 158, 1)); */
+    /* box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.3); */
     display: flex;
     justify-content: center;
     padding: 0.5rem 1.5rem;
     transition: all 0.1s ease-in-out;
     margin-top: 2rem;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3), -5px -5px 10px rgba(255,255,255,0.3) ;
 
 }
 
 button[type="submit"]:active {
-    background: linear-gradient(180deg,rgba(33, 46, 83, 1), rgba(74, 145, 158, 1));
+    /* background: linear-gradient(180deg,rgba(33, 46, 83, 1), rgba(74, 145, 158, 1)); */
     /* background: linear-gradient(180deg, rgba(0,0,0,0.22), rgba(255,255,255,0.25)); */
     box-shadow: 0 12px 20px 0 rgba(0, 0, 0, 0.3);
 }
