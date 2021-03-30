@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+    <script
+        crossorigin
+        src="https://unpkg.com/react@17/umd/react.production.min.js"
+    ></script>
+    <script
+        crossorigin
+        src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js"
+    ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <head>
+        <meta charset="utf-8" />
+        <link rel="icon" href="assets/img/favicon.ico" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta
+            name="description"
+            content="Web site created using create-react-app"
+        />
+        <title>React Grading App</title>
+        <style>
+            /* Index */
+            @import url("https://fonts.googleapis.com/css2?family=Alex+Brush&family=Roboto:wght@300;400&display=swap");
+
+            :root {
+                --dark-blue: #212e53;
+                --light-blue: #4a919e;
+                --pink: #ebaca2;
+                --red: #ce6a6b;
+                --green: #bed3c3;
+                --font-color: #777777;
+            }
+
+            body {
+                margin: 0;
+                height: 100%;
+                min-height: 100vh;
+            }
+
+            * {
+                box-sizing: border-box;
+            }
+
+            p,
+            label,
+            span {
+                font-family: Roboto;
+                font-weight: 400;
+                font-size: 1.2rem;
+            }
+
+            ul {
+                list-style-type: none;
+            }
+
+            #root {
+                height: 100%;
+                min-height: 100vh;
+            }
+
+            /* App */
+
+            .App {
+                height: 100%;
+                min-height: 100vh;
+            }
+
+            #contents {
+                display: flex;
+                flex-direction: row;
+                flex-wrap: wrap;
+                padding: 4rem;
+                margin: auto;
+                align-items: flex-start;
+                justify-content: space-between;
+                height: 100%;
+                min-height: calc(100vh - 10rem - 4rem);
+            }
+
+            .left {
+                display: flex;
+                flex-direction: column;
+                flex-wrap: nowrap;
+                align-items: flex-start;
+                justify-content: space-between;
+                height: 100%;
+                min-height: calc(100vh - 10rem - 8rem);
+            }
+
+            /* Nav */
+
+            nav {
+                background-color: var(--light-blue);
+                width: 100%;
+                height: 10rem;
+                box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.2);
+                /* box-shadow: 0 8px 8px rgba(0, 0, 0, 0.2); */
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: center;
+            }
+
+            h1 {
+                font-family: Alex Brush;
+                font-size: 4rem;
+                color: white;
+            }
+
+            /* Form */
+
+            .form {
+                width: 25rem;
+                max-width: 95%;
+                display: flex;
+                flex-direction: column;
+                flex-wrap: nowrap;
+                align-items: flex-end;
+                justify-content: space-evenly;
+                gap: 3rem;
+            }
+
+            #error {
+                width: 100%;
+                border: 3px solid var(--red);
+                background-color: var(--pink);
+                color: white;
+                font-weight: 500;
+                display: flex;
+                flex-wrap: wrap;
+                flex-direction: row;
+                align-items: center;
+                justify-content: center;
+                gap: 1rem;
+                height: 5rem;
+            }
+
+            form {
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                flex-wrap: nowrap;
+                align-items: flex-end;
+                justify-content: space-evenly;
+                gap: 1rem;
+            }
+
+            input:-webkit-autofill,
+            input:-webkit-autofill:hover,
+            input:-webkit-autofill:focus textarea:-webkit-autofill,
+            textarea:-webkit-autofill:hover textarea:-webkit-autofill:focus,
+            select:-webkit-autofill,
+            select:-webkit-autofill:hover,
+            select:-webkit-autofill:focus {
+                box-shadow: 0 0 0px 1000px #ffffff inset !important;
+                -webkit-box-shadow: 0 0 0px 1000px #ffffff inset !important;
+            }
+
+            button[type="submit"] {
+                font-family: Roboto;
+                font-weight: 400;
+                font-size: 2rem;
+                outline: none;
+                border: none;
+                background-color: transparent;
+                cursor: pointer;
+                /* color: var(--font-color); */
+                /* color: black; */
+                color: var(--font-color);
+                border-radius: 25px;
+                box-shadow: inset;
+                z-index: 1;
+                /* background: linear-gradient(0deg, rgba(0,0,0,0.1), rgba(255,255,255,1)); */
+                /* background: linear-gradient(0deg,rgba(33, 46, 83, 1), rgba(74, 145, 158, 1)); */
+                /* box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.3); */
+                display: flex;
+                justify-content: center;
+                padding: 0.5rem 1.5rem;
+                transition: all 0.1s ease-in-out;
+                margin-top: 2rem;
+                box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3),
+                    -5px -5px 10px rgba(255, 255, 255, 0.3);
+            }
+
+            button[type="submit"]:active {
+                /* background: linear-gradient(180deg,rgba(33, 46, 83, 1), rgba(74, 145, 158, 1)); */
+                /* background: linear-gradient(180deg, rgba(0,0,0,0.22), rgba(255,255,255,0.25)); */
+                box-shadow: 0 12px 20px 0 rgba(0, 0, 0, 0.3);
+            }
+
+            input {
+                font-family: Roboto;
+                font-weight: 300;
+                font-size: 1.25rem;
+            }
+
+            label,
+            input {
+                display: block;
+                border: none;
+                color: var(--font-color);
+                outline: none;
+            }
+
+            input {
+                font-weight: 400;
+                font-family: Roboto;
+                width: 100%;
+                height: 100%;
+                z-index: 1;
+            }
+
+            form > div > label span {
+                position: absolute;
+                bottom: 1.2rem;
+                left: 1.5rem;
+                transition: all 0.3s ease;
+            }
+
+            input:focus + label span,
+            input:not(:placeholder-shown) + label span {
+                left: 1.2rem;
+                transform: translateY(-150%);
+                /* color: var(--valid-green); */
+            }
+
+            .inputContainer:focus-within {
+                border-left: 6px solid var(--green);
+            }
+
+            input:focus + label span,
+            input:not(:placeholder-shown) + label span {
+                font-size: 14px;
+            }
+
+            div.inputContainer.error {
+                border: 1px solid var(--red);
+                border-left: 6px solid var(--red);
+            }
+
+            /* Card */
+
+            .card {
+                height: 4rem;
+                border-radius: 2px;
+                position: relative;
+                box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.2);
+                padding: 2px 16px;
+                margin-bottom: 5px;
+                z-index: 1;
+                transition: all 0.2s;
+                width: 100%;
+                background-color: white;
+                z-index: 2;
+                transition: all 0.2s ease-in;
+            }
+
+            .card:focus-within,
+            .card:hover {
+                z-index: 3;
+                transform: scale(1.02);
+            }
+
+            /* Grades */
+
+            .grades {
+                width: 50rem;
+                max-width: 95%;
+                height: max-content;
+                display: flex;
+                flex-direction: column;
+                flex-wrap: nowrap;
+                gap: 0.5rem;
+            }
+
+            .subject {
+                height: 7rem;
+                display: flex;
+                flex-direction: row;
+                flex-wrap: nowrap;
+                align-content: center;
+                justify-content: space-evenly;
+                border-left: 8px solid var(--pink);
+            }
+
+            .subject > div {
+                width: 33%;
+            }
+
+            .subject .btnContainer {
+                display: flex;
+                flex-direction: row;
+                flex-wrap: nowrap;
+                align-content: center;
+                justify-content: flex-end;
+            }
+
+            .subject > .btnContainer > button {
+                border: none;
+                background: transparent;
+                outline: none;
+                cursor: pointer;
+                transition: all 0.2s ease-in;
+                position: relative;
+                width: 50%;
+            }
+
+            .subject .btnContainer > button:hover {
+                transform: scale(1.05);
+            }
+
+            .subject .btnContainer > button > img {
+                height: 5rem;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -40%);
+            }
+
+            .textContainer {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .textContainer > span {
+                font-size: 2.5rem;
+                color: var(--font-color);
+            }
+
+            /* Stats */
+
+            #stats {
+                width: 40rem;
+                height: 7rem;
+                display: flex;
+                flex-wrap: nowrap;
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-evenly;
+                font-family: Roboto;
+                border-left: 8px solid var(--dark-blue);
+            }
+
+            #stats > div {
+                display: flex;
+                flex-direction: column;
+                flex-wrap: nowrap;
+                align-items: center;
+                justify-content: space-evenly;
+            }
+
+            #stats > div > span {
+                color: var(--font-color);
+                font-size: 2rem;
+            }
+        </style>
+    </head>
+    <body>
+        <noscript>You need to enable JavaScript to run this app.</noscript>
+        <div id="root"></div>
+    </body>
+    <script type="text/babel">
+        const Nav = () => {
+            return (
+                <div>
+                    <nav>
+                        <h1>React Grading App</h1>
+                    </nav>
+                </div>
+            );
+        };
+
+        const Form = ({
+            setGrade,
+            setSubject,
+            addGrade,
+            currentGrade,
+            currentSubject,
+            index,
+        }) => {
+            let error;
+
+            if (currentGrade.error) {
+                error = (
+                    <div id="error">
+                        <span>
+                            <img
+                                src="assets/img/Attention.png"
+                                alt="Attention"
+                            />
+                        </span>
+                        <span>{currentGrade.error}</span>
+                    </div>
+                );
+            } else if (currentSubject.error) {
+                error = (
+                    <div id="error">
+                        <span>
+                            <img
+                                src="assets/img/Attention.png"
+                                alt="Attention"
+                            />
+                        </span>
+                        <span>{currentSubject.error}</span>
+                    </div>
+                );
+            } else {
+                error = "";
+            }
+
+            let subjectClass = "inputContainer card";
+
+            if (currentSubject.error) {
+                subjectClass += " error";
+            }
+
+            let gradeClass = "inputContainer card";
+
+            if (currentGrade.error) {
+                gradeClass += " error";
+            }
+
+            return (
+                <div className="form">
+                    <form onSubmit={addGrade}>
+                        <div className={subjectClass}>
+                            <input
+                                type="text"
+                                id="subject"
+                                name="subject"
+                                onChange={setSubject}
+                                placeholder=" "
+                                value={currentSubject.value ?? ""}
+                            />
+                            <label htmlFor="subject">
+                                <span>Subject</span>
+                            </label>
+                        </div>
+                        <div className={gradeClass}>
+                            <input
+                                type="number"
+                                id="grade"
+                                name="grade"
+                                onChange={setGrade}
+                                min="0"
+                                max="100"
+                                placeholder=" "
+                                value={currentGrade.value ?? ""}
+                            />
+                            <label htmlFor="grade">
+                                <span>Grade</span>
+                            </label>
+                        </div>
+                        <button type="submit">
+                            {Number(index) ? "Update" : "Add"}
+                        </button>
+                    </form>
+                    {error}
+                </div>
+            );
+        };
+
+        const Stats = ({ min, max, avg }) => {
+            return (
+                <div className="card" id="stats">
+                    <div>
+                        <span>Min</span>
+                        <span>{min}</span>
+                    </div>
+                    <div>
+                        <span>Max</span>
+                        <span>{max}</span>
+                    </div>
+                    <div>
+                        <span>Avg</span>
+                        <span>{avg}</span>
+                    </div>
+                </div>
+            );
+        };
+
+        const Grades = ({ grades, deleteItem, editItem }) => {
+            return (
+                <div className="grades">
+                    {grades.map((grade, index) => (
+                        /* Set key to one over the index because Javascript converts the number 0 to undefined */
+                        <div className="subject card" key={index + 1}>
+                            <div className="textContainer">
+                                <span>{grade.subject}</span>
+                            </div>
+                            <div className="textContainer">
+                                <span>{grade.grade}</span>
+                            </div>
+                            <div className="btnContainer">
+                                <button type="button">
+                                    <img
+                                        src="assets/img/editBrush.png"
+                                        alt="Edit"
+                                        onClick={() => editItem(index + 1)}
+                                    />
+                                </button>
+                                <button>
+                                    <img
+                                        src="assets/img/cancel.png"
+                                        alt="Delete"
+                                        onClick={() => deleteItem(index + 1)}
+                                    />
+                                </button>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            );
+        };
+
+        const App = () => {
+            const [state, setState] = React.useState({
+                index: undefined,
+                currentGrade: { value: undefined, error: "" },
+                currentSubject: { value: undefined, error: "" },
+                grades: [],
+                stats: {
+                    max: 0,
+                    min: 0,
+                    avg: 0,
+                },
+            });
+
+            const computeStats = (grades) => {
+                const numberGrades = grades.map((grade) => grade.grade);
+                let avg = 0,
+                    min = Infinity,
+                    max = 0;
+
+                let total = 0;
+                for (const grade of numberGrades) {
+                    total += Number(grade);
+
+                    if (Number(grade) < min) {
+                        min = Number(grade);
+                    }
+
+                    if (Number(grade) > max) {
+                        max = Number(grade);
+                    }
+                }
+
+                avg = total / numberGrades.length;
+
+                return {
+                    min: min === Infinity ? 0 : min,
+                    max,
+                    avg,
+                };
+            };
+
+            const addGrade = (e) => {
+                e.preventDefault();
+                if (
+                    state.currentGrade.error === "" &&
+                    state.currentSubject.error === "" &&
+                    state.currentGrade.value !== undefined &&
+                    state.currentSubject.value !== undefined
+                ) {
+                    e.currentTarget.reset();
+                    const grades = state.grades;
+                    const newGrade = {
+                        grade: state.currentGrade.value,
+                        subject: state.currentSubject.value,
+                    };
+
+                    if (state.index) {
+                        grades[state.index - 1] = newGrade;
+                    } else {
+                        grades.push(newGrade);
+                    }
+
+                    const stats = computeStats(grades);
+
+                    setState({
+                        currentGrade: { value: undefined, error: "" },
+                        currentSubject: { value: undefined, error: "" },
+                        index: undefined,
+                        grades,
+                        stats,
+                    });
+                } else {
+                    if (state.currentSubject.value === undefined) {
+                        setState({
+                            ...state,
+                            currentSubject: {
+                                ...state.currentSubject,
+                                error: "Subject cannot be empty",
+                            },
+                        });
+                    } else if (state.currentGrade.value === undefined) {
+                        setState({
+                            ...state,
+                            currentGrade: {
+                                ...state.currentGrade,
+                                error: "Grade cannot be empty",
+                            },
+                        });
+                    }
+                }
+            };
+
+            const setGrade = (e) => {
+                let newValue;
+
+                try {
+                    newValue = Number(e.currentTarget.value);
+                } catch (_) {
+                    newValue = state.currentGrade.value;
+                }
+
+                if (newValue !== state.currentGrade.value) {
+                    let error = "";
+
+                    if (Number(newValue) < 0) {
+                        error = "Grade must be greater than 0";
+                    } else if (Number(newValue) > 100) {
+                        error = "Grade must be less than 100";
+                    } else if (!Number.isInteger(newValue)) {
+                        error = "Grade must be an integer";
+                    }
+
+                    setState({
+                        ...state,
+                        currentGrade: { value: newValue, error },
+                    });
+                }
+            };
+
+            const setSubject = (e) => {
+                let newValue = e.currentTarget.value;
+                if (newValue !== state.currentSubject.value) {
+                    let error = "";
+
+                    if (newValue.trim() === "") {
+                        error = "Subject cannot be blank";
+                    }
+
+                    setState({
+                        ...state,
+                        currentSubject: { value: newValue, error },
+                    });
+                }
+            };
+
+            const editItem = (index) => {
+                const current = state.grades[index - 1];
+                setState({
+                    ...state,
+                    index: Number(index),
+                    currentGrade: {
+                        value: current.grade,
+                        error: "",
+                    },
+                    currentSubject: {
+                        value: current.subject,
+                        error: "",
+                    },
+                });
+            };
+
+            const deleteItem = (index) => {
+                let tmpGrades = state.grades;
+                tmpGrades = tmpGrades
+                    .slice(0, index - 1)
+                    .concat(tmpGrades.slice(index, tmpGrades.length));
+                const stats =
+                    tmpGrades.length > 0
+                        ? computeStats(tmpGrades)
+                        : { min: 0, max: 0, avg: 0 };
+                setState({ ...state, grades: tmpGrades, stats });
+            };
+
+            return (
+                <div className="App">
+                    <Nav />
+                    <div id="contents">
+                        <div className="left">
+                            <Form
+                                setGrade={setGrade}
+                                setSubject={setSubject}
+                                currentGrade={state.currentGrade}
+                                currentSubject={state.currentSubject}
+                                addGrade={addGrade}
+                                index={state.index}
+                            />
+                            <Stats {...state.stats} />
+                        </div>
+                        <Grades
+                            grades={state.grades}
+                            deleteItem={deleteItem}
+                            editItem={editItem}
+                        />
+                    </div>
+                </div>
+            );
+        };
+
+        ReactDOM.render(
+            <React.StrictMode>
+                <App />
+            </React.StrictMode>,
+            document.getElementById("root")
+        );
+    </script>
+</html>
